@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyd.bikeManger.LimiteRoleMapper">
+  <resultMap id="BaseResultMap" type="com.lyd.bikeEntity.LimiteRole">
+    <id column="limite_role_id" jdbcType="INTEGER" property="limiteRoleId" />
+    <result column="column_id" jdbcType="INTEGER" property="columnId" />
+    <result column="employee_rank" jdbcType="INTEGER" property="employeeRank" />
+    <result column="user_rank" jdbcType="INTEGER" property="userRank" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    limite_role_id, column_id, employee_rank, user_rank
+  </sql>
+  <!-- 用户等级id得到权限对象集合 -->
+  <select id="getUserLimite" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_limite_role
+    where user_rank = #{rank}
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_limite_role
+    where limite_role_id = #{limiteRoleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_limite_role
+    where limite_role_id = #{limiteRoleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lyd.bikeEntity.LimiteRole">
+    insert into t_limite_role (limite_role_id, column_id, employee_rank, 
+      user_rank)
+    values (#{limiteRoleId,jdbcType=INTEGER}, #{columnId,jdbcType=INTEGER}, #{employeeRank,jdbcType=INTEGER}, 
+      #{userRank,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lyd.bikeEntity.LimiteRole">
+    insert into t_limite_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="limiteRoleId != null">
+        limite_role_id,
+      </if>
+      <if test="columnId != null">
+        column_id,
+      </if>
+      <if test="employeeRank != null">
+        employee_rank,
+      </if>
+      <if test="userRank != null">
+        user_rank,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="limiteRoleId != null">
+        #{limiteRoleId,jdbcType=INTEGER},
+      </if>
+      <if test="columnId != null">
+        #{columnId,jdbcType=INTEGER},
+      </if>
+      <if test="employeeRank != null">
+        #{employeeRank,jdbcType=INTEGER},
+      </if>
+      <if test="userRank != null">
+        #{userRank,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lyd.bikeEntity.LimiteRole">
+    update t_limite_role
+    <set>
+      <if test="columnId != null">
+        column_id = #{columnId,jdbcType=INTEGER},
+      </if>
+      <if test="employeeRank != null">
+        employee_rank = #{employeeRank,jdbcType=INTEGER},
+      </if>
+      <if test="userRank != null">
+        user_rank = #{userRank,jdbcType=INTEGER},
+      </if>
+    </set>
+    where limite_role_id = #{limiteRoleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lyd.bikeEntity.LimiteRole">
+    update t_limite_role
+    set column_id = #{columnId,jdbcType=INTEGER},
+      employee_rank = #{employeeRank,jdbcType=INTEGER},
+      user_rank = #{userRank,jdbcType=INTEGER}
+    where limite_role_id = #{limiteRoleId,jdbcType=INTEGER}
+  </update>
+</mapper>

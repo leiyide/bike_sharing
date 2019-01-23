@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyd.bikeManger.UserMapper">
+  <resultMap id="BaseResultMap" type="com.lyd.bikeEntity.User">
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_phoneNum" jdbcType="VARCHAR" property="userPhonenum" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_idCard" jdbcType="VARCHAR" property="userIdcard" />
+    <result column="user_balance" jdbcType="INTEGER" property="userBalance" />
+    <result column="user_deposit" jdbcType="INTEGER" property="userDeposit" />
+    <result column="user_comment" jdbcType="VARCHAR" property="userComment" />
+    <result column="user_rank" jdbcType="INTEGER" property="userRank" />
+  </resultMap>
+   <sql id="Base_Column_List">
+    user_id, user_name, user_password, user_phoneNum, user_email,user_idCard,user_balance,user_deposit,user_comment,user_rank                           
+  </sql>
+  <!-- 用户进行登录 -->
+    <select id="getUserLogin"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_email = #{email} and user_password=#{password}
+  </select>
+  <!-- 用户找回密码 -->
+    <select id="findUserPassword"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where  user_name=#{userName} and user_email = #{userEmail} and user_phoneNum=#{userPhone} and user_idCard=#{userIdCard}
+  </select>
+  <!-- 注册新用户 -->
+  <insert id="addNewUser" parameterType="java.lang.String">
+    insert into t_user ( user_name, user_password, 
+      user_phoneNum, user_email, user_idCard, 
+      user_rank)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userIdcard,jdbcType=VARCHAR},  
+      0)
+  </insert>
+  <!-- 校验身份证的唯一性 -->
+  <select id="checkIdCard"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where  user_idCard=#{userIdCard}
+  </select>
+ 
+  <insert id="insert" parameterType="com.lyd.bikeEntity.User">
+    insert into t_user (user_id, user_name, user_password, 
+      user_phoneNum, user_email, user_idCard, 
+      user_balance, user_deposit, user_comment, 
+      user_rank)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userPhonenum,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userIdcard,jdbcType=VARCHAR}, 
+      #{userBalance,jdbcType=INTEGER}, #{userDeposit,jdbcType=INTEGER}, #{userComment,jdbcType=VARCHAR}, 
+      #{userRank,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lyd.bikeEntity.User">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userPhonenum != null">
+        user_phoneNum,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userIdcard != null">
+        user_idCard,
+      </if>
+      <if test="userBalance != null">
+        user_balance,
+      </if>
+      <if test="userDeposit != null">
+        user_deposit,
+      </if>
+      <if test="userComment != null">
+        user_comment,
+      </if>
+      <if test="userRank != null">
+        user_rank,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhonenum != null">
+        #{userPhonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdcard != null">
+        #{userIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="userBalance != null">
+        #{userBalance,jdbcType=INTEGER},
+      </if>
+      <if test="userDeposit != null">
+        #{userDeposit,jdbcType=INTEGER},
+      </if>
+      <if test="userComment != null">
+        #{userComment,jdbcType=VARCHAR},
+      </if>
+      <if test="userRank != null">
+        #{userRank,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

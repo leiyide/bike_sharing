@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyd.bikeManger.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="com.lyd.bikeEntity.Employee">
+    <id column="employee_id" jdbcType="INTEGER" property="employeeId" />
+    <result column="employee_rank" jdbcType="INTEGER" property="employeeRank" />
+    <result column="employee_name" jdbcType="VARCHAR" property="employeeName" />
+    <result column="employee_sysName" jdbcType="VARCHAR" property="employeeSysname" />
+    <result column="employee_phone" jdbcType="VARCHAR" property="employeePhone" />
+    <result column="employee_email" jdbcType="VARCHAR" property="employeeEmail" />
+    <result column="employee_idCard" jdbcType="VARCHAR" property="employeeIdcard" />
+    <result column="employee_password" jdbcType="VARCHAR" property="employeePassword" />
+    <result column="employee_isJob" jdbcType="INTEGER" property="employeeIsjob" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    employee_id, employee_rank, employee_name, employee_sysName, employee_phone, employee_email, 
+    employee_idCard, employee_password, employee_isJob
+  </sql>
+  <!-- 员工登录查询 -->
+  <select id="getEmployeeLogin"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_employee
+    where employee_email = #{employeeEmail} and employee_password =#{password}
+  </select>
+  
+  <!-- 员工找回密码 -->
+  <select id="findEmployeePassword"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_employee
+    where employee_name = #{employeeName} and employee_email =#{employeeEmail} and employee_phone = #{employeePhone} and employee_idCard =#{employeeIdCard}
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_employee
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_employee
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lyd.bikeEntity.Employee">
+    insert into t_employee (employee_id, employee_rank, employee_name, 
+      employee_sysName, employee_phone, employee_email, 
+      employee_idCard, employee_password, employee_isJob
+      )
+    values (#{employeeId,jdbcType=INTEGER}, #{employeeRank,jdbcType=INTEGER}, #{employeeName,jdbcType=VARCHAR}, 
+      #{employeeSysname,jdbcType=VARCHAR}, #{employeePhone,jdbcType=VARCHAR}, #{employeeEmail,jdbcType=VARCHAR}, 
+      #{employeeIdcard,jdbcType=VARCHAR}, #{employeePassword,jdbcType=VARCHAR}, #{employeeIsjob,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lyd.bikeEntity.Employee">
+    insert into t_employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="employeeId != null">
+        employee_id,
+      </if>
+      <if test="employeeRank != null">
+        employee_rank,
+      </if>
+      <if test="employeeName != null">
+        employee_name,
+      </if>
+      <if test="employeeSysname != null">
+        employee_sysName,
+      </if>
+      <if test="employeePhone != null">
+        employee_phone,
+      </if>
+      <if test="employeeEmail != null">
+        employee_email,
+      </if>
+      <if test="employeeIdcard != null">
+        employee_idCard,
+      </if>
+      <if test="employeePassword != null">
+        employee_password,
+      </if>
+      <if test="employeeIsjob != null">
+        employee_isJob,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="employeeId != null">
+        #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="employeeRank != null">
+        #{employeeRank,jdbcType=INTEGER},
+      </if>
+      <if test="employeeName != null">
+        #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeSysname != null">
+        #{employeeSysname,jdbcType=VARCHAR},
+      </if>
+      <if test="employeePhone != null">
+        #{employeePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeEmail != null">
+        #{employeeEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeIdcard != null">
+        #{employeeIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="employeePassword != null">
+        #{employeePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeIsjob != null">
+        #{employeeIsjob,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lyd.bikeEntity.Employee">
+    update t_employee
+    <set>
+      <if test="employeeRank != null">
+        employee_rank = #{employeeRank,jdbcType=INTEGER},
+      </if>
+      <if test="employeeName != null">
+        employee_name = #{employeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeSysname != null">
+        employee_sysName = #{employeeSysname,jdbcType=VARCHAR},
+      </if>
+      <if test="employeePhone != null">
+        employee_phone = #{employeePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeEmail != null">
+        employee_email = #{employeeEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeIdcard != null">
+        employee_idCard = #{employeeIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="employeePassword != null">
+        employee_password = #{employeePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeIsjob != null">
+        employee_isJob = #{employeeIsjob,jdbcType=INTEGER},
+      </if>
+    </set>
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lyd.bikeEntity.Employee">
+    update t_employee
+    set employee_rank = #{employeeRank,jdbcType=INTEGER},
+      employee_name = #{employeeName,jdbcType=VARCHAR},
+      employee_sysName = #{employeeSysname,jdbcType=VARCHAR},
+      employee_phone = #{employeePhone,jdbcType=VARCHAR},
+      employee_email = #{employeeEmail,jdbcType=VARCHAR},
+      employee_idCard = #{employeeIdcard,jdbcType=VARCHAR},
+      employee_password = #{employeePassword,jdbcType=VARCHAR},
+      employee_isJob = #{employeeIsjob,jdbcType=INTEGER}
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </update>
+</mapper>

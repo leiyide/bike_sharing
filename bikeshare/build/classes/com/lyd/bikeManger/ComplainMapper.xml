@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyd.bikeManger.ComplainMapper">
+  <resultMap id="BaseResultMap" type="com.lyd.bikeEntity.Complain">
+    <id column="complain_id" jdbcType="INTEGER" property="complainId" />
+    <result column="complain_ user_id" jdbcType="INTEGER" property="complainUserId" />
+    <result column="complain_bike_id" jdbcType="INTEGER" property="complainBikeId" />
+    <result column="complain_bike _area" jdbcType="VARCHAR" property="complainBikeArea" />
+    <result column="complain_ info" jdbcType="VARCHAR" property="complainInfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    complain_id, "complain_ user_id", complain_bike_id, "complain_bike _area", "complain_ info"
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_complain
+    where complain_id = #{complainId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_complain
+    where complain_id = #{complainId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lyd.bikeEntity.Complain">
+    insert into t_complain (complain_id, "complain_ user_id", complain_bike_id, 
+      "complain_bike _area", "complain_ info")
+    values (#{complainId,jdbcType=INTEGER}, #{complainUserId,jdbcType=INTEGER}, #{complainBikeId,jdbcType=INTEGER}, 
+      #{complainBikeArea,jdbcType=VARCHAR}, #{complainInfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lyd.bikeEntity.Complain">
+    insert into t_complain
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="complainId != null">
+        complain_id,
+      </if>
+      <if test="complainUserId != null">
+        "complain_ user_id",
+      </if>
+      <if test="complainBikeId != null">
+        complain_bike_id,
+      </if>
+      <if test="complainBikeArea != null">
+        "complain_bike _area",
+      </if>
+      <if test="complainInfo != null">
+        "complain_ info",
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="complainId != null">
+        #{complainId,jdbcType=INTEGER},
+      </if>
+      <if test="complainUserId != null">
+        #{complainUserId,jdbcType=INTEGER},
+      </if>
+      <if test="complainBikeId != null">
+        #{complainBikeId,jdbcType=INTEGER},
+      </if>
+      <if test="complainBikeArea != null">
+        #{complainBikeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="complainInfo != null">
+        #{complainInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lyd.bikeEntity.Complain">
+    update t_complain
+    <set>
+      <if test="complainUserId != null">
+        "complain_ user_id" = #{complainUserId,jdbcType=INTEGER},
+      </if>
+      <if test="complainBikeId != null">
+        complain_bike_id = #{complainBikeId,jdbcType=INTEGER},
+      </if>
+      <if test="complainBikeArea != null">
+        "complain_bike _area" = #{complainBikeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="complainInfo != null">
+        "complain_ info" = #{complainInfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where complain_id = #{complainId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lyd.bikeEntity.Complain">
+    update t_complain
+    set "complain_ user_id" = #{complainUserId,jdbcType=INTEGER},
+      complain_bike_id = #{complainBikeId,jdbcType=INTEGER},
+      "complain_bike _area" = #{complainBikeArea,jdbcType=VARCHAR},
+      "complain_ info" = #{complainInfo,jdbcType=VARCHAR}
+    where complain_id = #{complainId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyd.bikeManger.BikeMapper">
+  <resultMap id="BaseResultMap" type="com.lyd.bikeEntity.Bike">
+    <id column="bike_id" jdbcType="INTEGER" property="bikeId" />
+    <result column="bike_generationNum" jdbcType="INTEGER" property="bikeGenerationnum" />
+    <result column="bike_password" jdbcType="INTEGER" property="bikePassword" />
+    <result column="bike_useNum" jdbcType="INTEGER" property="bikeUsenum" />
+    <result column="bike_isUsing" jdbcType="INTEGER" property="bikeIsusing" />
+    <result column="bike_area" jdbcType="VARCHAR" property="bikeArea" />
+    <result column="bike_isUse" jdbcType="INTEGER" property="bikeIsuse" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bike_id, bike_generationNum, bike_password, bike_useNum, bike_isUsing, bike_area, 
+    bike_isUse
+  </sql>
+ 
+  <!-- 用户得到单车列表 -->
+  <select id="getBikeList" resultMap="BaseResultMap">
+  	select
+	 <include refid="Base_Column_List" />
+	   from t_bike
+	<where>
+		<if test="bikeId!=null">
+			and bike_id =#{bikeId}
+		</if>
+		<if test="bikeGenerationnum!=null">
+			and bike_generationNum like #{bikeGenerationnum}
+		</if>
+		<if test="bikeArea!=null and bikeArea!='' ">
+			and bike_area like #{bikeArea}
+		</if>
+	</where>
+</select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_bike
+    where bike_id = #{bikeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_bike
+    where bike_id = #{bikeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lyd.bikeEntity.Bike">
+    insert into t_bike (bike_id, bike_generationNum, bike_password, 
+      bike_useNum, bike_isUsing, bike_area, 
+      bike_isUse)
+    values (#{bikeId,jdbcType=INTEGER}, #{bikeGenerationnum,jdbcType=INTEGER}, #{bikePassword,jdbcType=INTEGER}, 
+      #{bikeUsenum,jdbcType=INTEGER}, #{bikeIsusing,jdbcType=INTEGER}, #{bikeArea,jdbcType=VARCHAR}, 
+      #{bikeIsuse,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lyd.bikeEntity.Bike">
+    insert into t_bike
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bikeId != null">
+        bike_id,
+      </if>
+      <if test="bikeGenerationnum != null">
+        bike_generationNum,
+      </if>
+      <if test="bikePassword != null">
+        bike_password,
+      </if>
+      <if test="bikeUsenum != null">
+        bike_useNum,
+      </if>
+      <if test="bikeIsusing != null">
+        bike_isUsing,
+      </if>
+      <if test="bikeArea != null">
+        bike_area,
+      </if>
+      <if test="bikeIsuse != null">
+        bike_isUse,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bikeId != null">
+        #{bikeId,jdbcType=INTEGER},
+      </if>
+      <if test="bikeGenerationnum != null">
+        #{bikeGenerationnum,jdbcType=INTEGER},
+      </if>
+      <if test="bikePassword != null">
+        #{bikePassword,jdbcType=INTEGER},
+      </if>
+      <if test="bikeUsenum != null">
+        #{bikeUsenum,jdbcType=INTEGER},
+      </if>
+      <if test="bikeIsusing != null">
+        #{bikeIsusing,jdbcType=INTEGER},
+      </if>
+      <if test="bikeArea != null">
+        #{bikeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="bikeIsuse != null">
+        #{bikeIsuse,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lyd.bikeEntity.Bike">
+    update t_bike
+    <set>
+      <if test="bikeGenerationnum != null">
+        bike_generationNum = #{bikeGenerationnum,jdbcType=INTEGER},
+      </if>
+      <if test="bikePassword != null">
+        bike_password = #{bikePassword,jdbcType=INTEGER},
+      </if>
+      <if test="bikeUsenum != null">
+        bike_useNum = #{bikeUsenum,jdbcType=INTEGER},
+      </if>
+      <if test="bikeIsusing != null">
+        bike_isUsing = #{bikeIsusing,jdbcType=INTEGER},
+      </if>
+      <if test="bikeArea != null">
+        bike_area = #{bikeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="bikeIsuse != null">
+        bike_isUse = #{bikeIsuse,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bike_id = #{bikeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lyd.bikeEntity.Bike">
+    update t_bike
+    set bike_generationNum = #{bikeGenerationnum,jdbcType=INTEGER},
+      bike_password = #{bikePassword,jdbcType=INTEGER},
+      bike_useNum = #{bikeUsenum,jdbcType=INTEGER},
+      bike_isUsing = #{bikeIsusing,jdbcType=INTEGER},
+      bike_area = #{bikeArea,jdbcType=VARCHAR},
+      bike_isUse = #{bikeIsuse,jdbcType=INTEGER}
+    where bike_id = #{bikeId,jdbcType=INTEGER}
+  </update>
+</mapper>
